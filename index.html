@@ -59,6 +59,9 @@
   .sucesso .ok{width:68px;height:68px;border-radius:50%;background:var(--ouro);display:grid;place-items:center;margin:0 auto 18px}
   .sucesso h2{font-size:26px;color:var(--navy);margin-bottom:8px;letter-spacing:-.02em}
   .sucesso p{color:var(--suave);max-width:380px;margin:0 auto}
+  .sucesso .redir{margin:22px auto 0;font-size:14px;background:#F4F5F9;border-radius:12px;padding:12px 14px}
+  .sucesso .redir strong{color:var(--navy)}
+  .sucesso .redir a{color:var(--navy);font-weight:700;white-space:nowrap}
 
   footer{text-align:center;font-size:12px;color:var(--suave);padding:0 16px 32px}
   [hidden]{display:none!important}
@@ -160,6 +163,7 @@
       <div class="ok"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#001F80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
       <h2 id="sucesso-titulo">Inscrição confirmada!</h2>
       <p id="sucesso-texto">Você já está concorrendo ao iPhone 16. Boa sorte!</p>
+      <p class="redir">Você será levado ao site da Arqdigital em <strong id="contador">5</strong> <span id="seg">segundos</span>. <a id="ir-agora" href="https://www.arqdigital.com.br">Ir agora</a></p>
     </div>
   </section>
 </main>
@@ -169,7 +173,9 @@
 <script>
 /* ===== EDITE AQUI ===== */
 const CONFIG = {
-  scriptUrl: 'https://script.google.com/macros/s/AKfycbxIUFlz0MKLYOzbjByEgfo1YR_e9DR93DgwAMr88wOfEv2q9H58B2CHs6530-9QR-XS4g/exec' // termina em /exec
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbxIUFlz0MKLYOzbjByEgfo1YR_e9DR93DgwAMr88wOfEv2q9H58B2CHs6530-9QR-XS4g/exec', // termina em /exec
+  siteArqdigital: 'https://www.arqdigital.com.br', // para onde a pessoa vai depois da confirmação
+  segundosAteRedirecionar: 5
 };
 /* ====================== */
 
@@ -180,6 +186,20 @@ const DOMINIOS_PESSOAIS = [
 ];
 
 const $ = id => document.getElementById(id);
+$('ir-agora').href = CONFIG.siteArqdigital;
+
+// Depois da confirmação, conta os segundos e leva a pessoa ao site da Arqdigital.
+function iniciarRedirecionamento() {
+  let s = CONFIG.segundosAteRedirecionar;
+  const atualizar = () => { $('contador').textContent = s; $('seg').textContent = s === 1 ? 'segundo' : 'segundos'; };
+  atualizar();
+  const t = setInterval(() => {
+    s--;
+    if (s > 0) { atualizar(); return; }
+    clearInterval(t);
+    window.location.href = CONFIG.siteArqdigital;
+  }, 1000);
+}
 
 // Máscara do WhatsApp
 $('whatsapp').addEventListener('input', e => {
@@ -227,6 +247,7 @@ $('form').addEventListener('submit', async e => {
     }
     $('area-form').hidden = true;
     $('area-sucesso').hidden = false;
+    iniciarRedirecionamento();
   } catch (err) {
     $('msg').textContent = err.message && err.message !== 'Failed to fetch'
       ? err.message

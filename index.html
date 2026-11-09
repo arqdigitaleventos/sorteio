@@ -45,8 +45,7 @@
   input.invalido{border-color:var(--erro);background:#FFF8F7}
   .linha{display:flex;gap:12px}
   .linha > div{flex:1;min-width:0}
-  .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:13.5px;color:var(--suave);margin-top:14px;cursor:pointer}
-  .check:first-of-type{margin-top:22px}
+  .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:13.5px;color:var(--suave);margin-top:22px;cursor:pointer}
   .check input{margin-top:2px;width:18px;height:18px;accent-color:var(--navy);flex-shrink:0}
   .check a{color:var(--navy);font-weight:600}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
@@ -148,10 +147,6 @@
         </div>
 
         <label class="check">
-          <input type="checkbox" id="regulamento" required>
-          <span>Li e aceito o <a id="link-regulamento" href="#" target="_blank" rel="noopener">regulamento do sorteio</a>.</span>
-        </label>
-        <label class="check">
           <input type="checkbox" id="lgpd" required>
           <span>Autorizo a Arqdigital a usar meus dados para este sorteio e para enviar conteúdos e novidades. Posso cancelar quando quiser.</span>
         </label>
@@ -174,8 +169,7 @@
 <script>
 /* ===== EDITE AQUI ===== */
 const CONFIG = {
-  scriptUrl: 'https://script.google.com/macros/s/AKfycbxIUFlz0MKLYOzbjByEgfo1YR_e9DR93DgwAMr88wOfEv2q9H58B2CHs6530-9QR-XS4g/exec', // termina em /exec
-  linkRegulamento: '#'
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbxIUFlz0MKLYOzbjByEgfo1YR_e9DR93DgwAMr88wOfEv2q9H58B2CHs6530-9QR-XS4g/exec' // termina em /exec
 };
 /* ====================== */
 
@@ -186,7 +180,6 @@ const DOMINIOS_PESSOAIS = [
 ];
 
 const $ = id => document.getElementById(id);
-$('link-regulamento').href = CONFIG.linkRegulamento;
 
 // Máscara do WhatsApp
 $('whatsapp').addEventListener('input', e => {
@@ -208,7 +201,7 @@ function validar() {
   if (!marcar('whatsapp', $('whatsapp').value.replace(/\D/g, '').length >= 10)) erros.push('Confira o WhatsApp com DDD.');
   if (!marcar('empresa', $('empresa').value.trim().length > 1)) erros.push('Informe a empresa.');
   if (!marcar('cargo', $('cargo').value.trim().length > 1)) erros.push('Informe seu cargo.');
-  if (!$('regulamento').checked || !$('lgpd').checked) erros.push('Marque as duas autorizações para participar.');
+  if (!$('lgpd').checked) erros.push('Marque a autorização de uso dos dados para participar.');
   return erros;
 }
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Concorra a um iPhone 16 | Arqdigital</title>
-<meta name="description" content="Cadastre-se com seu e-mail corporativo e concorra a um iPhone 16 com a Arqdigital.">
+<meta name="description" content="Cadastre-se e concorra a um iPhone 16 com a Arqdigital.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -37,8 +37,6 @@
   .premio strong{font-size:22px;font-weight:800;letter-spacing:-.01em}
 
   label{display:block;font-weight:600;font-size:14px;margin:18px 0 6px}
-  .dica{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--navy);background:#FFF6DD;border:1px solid #F7DE97;border-radius:10px;padding:9px 11px;margin-top:8px;line-height:1.4}
-  .dica svg{flex-shrink:0;margin-top:1px}
   input[type=text],input[type=email],input[type=tel]{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--borda);border-radius:12px;background:var(--campo);color:var(--texto);transition:border-color .15s,box-shadow .15s,background .15s}
   input::placeholder{color:#9AA0B5}
   input:focus{outline:none;border-color:var(--navy);background:#fff;box-shadow:0 0 0 4px rgba(0,31,128,.12)}
@@ -104,7 +102,7 @@
 </svg>
     <div class="selo"><i></i>Sorteio Arqdigital</div>
     <h1>Concorra a um <span>iPhone 16</span></h1>
-    <p class="sub">Cadastre-se com seu e-mail corporativo e participe. Cada pessoa concorre uma vez.</p>
+    <p class="sub">Cadastre-se e participe. Cada pessoa concorre uma vez.</p>
   </div>
 </header>
 
@@ -122,12 +120,8 @@
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Seu nome e sobrenome" required>
 
-        <label for="email">E-mail corporativo</label>
-        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="voce@suaempresa.com.br" required aria-describedby="dica-email">
-        <p class="dica" id="dica-email">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#001F80" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16.5v.01"/></svg>
-          <span>Use o e-mail da empresa onde você trabalha. E-mails pessoais, como Gmail, Hotmail, Outlook e Yahoo, não são aceitos.</span>
-        </p>
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required>
 
         <label for="whatsapp">WhatsApp</label>
         <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" inputmode="numeric" placeholder="(00) 00000-0000" required>
@@ -179,12 +173,6 @@ const CONFIG = {
 };
 /* ====================== */
 
-const DOMINIOS_PESSOAIS = [
-  'gmail.com','googlemail.com','hotmail.com','hotmail.com.br','outlook.com','outlook.com.br','live.com','msn.com',
-  'yahoo.com','yahoo.com.br','ymail.com','icloud.com','me.com','mac.com','bol.com.br','uol.com.br','terra.com.br',
-  'ig.com.br','globo.com','globomail.com','r7.com','proton.me','protonmail.com','aol.com','zipmail.com.br'
-];
-
 const $ = id => document.getElementById(id);
 $('ir-agora').href = CONFIG.siteArqdigital;
 
@@ -213,11 +201,9 @@ function validar() {
   const erros = [];
   const marcar = (id, ok) => { $(id).classList.toggle('invalido', !ok); return ok; };
   const email = $('email').value.trim().toLowerCase();
-  const dominio = email.split('@')[1] || '';
 
   if (!marcar('nome', $('nome').value.trim().split(/\s+/).length >= 2)) erros.push('Informe nome e sobrenome.');
   if (!marcar('email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))) erros.push('Confira o e-mail.');
-  else if (!marcar('email', !DOMINIOS_PESSOAIS.includes(dominio))) erros.push('Use seu e-mail corporativo, não um e-mail pessoal.');
   if (!marcar('whatsapp', $('whatsapp').value.replace(/\D/g, '').length >= 10)) erros.push('Confira o WhatsApp com DDD.');
   if (!marcar('empresa', $('empresa').value.trim().length > 1)) erros.push('Informe a empresa.');
   if (!marcar('cargo', $('cargo').value.trim().length > 1)) erros.push('Informe seu cargo.');
